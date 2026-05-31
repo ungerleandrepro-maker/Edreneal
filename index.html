@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Erdenael - Sacoche Duplicatrice</title>
+    <meta
+      name="description"
+      content="Erdenael, sacoche duplicatrice pixel pour generer des variantes video et photo."
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <div class="quick-actions" aria-label="Actions rapides">
+        <a class="icon-button" href="#" aria-label="Documentation des parametres">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M12 11v5"></path>
+            <path d="M12 8h.01"></path>
+          </svg>
+        </a>
+        <button class="icon-button" id="history-toggle" type="button" aria-label="Ouvrir l'historique">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12a8 8 0 1 0 2.65-5.95L4 8.75"></path>
+            <path d="M4 4v4.75h4.75"></path>
+            <path d="M12 7.5V12l3.5 2"></path>
+          </svg>
+        </button>
+      </div>
+
+      <section class="studio" aria-label="Erdenael Sacoche Duplicatrice">
+        <header class="brand">
+          <h1>Erdenael</h1>
+          <p class="subtitle">Sacoche Duplicatrice</p>
+        </header>
+
+        <nav class="tabs" aria-label="Sources">
+          <button class="tab active" type="button" data-tab="upload">Upload</button>
+          <button class="tab" type="button" data-tab="instagram">Instagram</button>
+          <button class="tab" type="button" data-tab="tiktok">TikTok</button>
+        </nav>
+
+        <section class="upload-panel source-panel" data-panel="upload" aria-label="Importer des medias">
+          <input
+            id="file-input"
+            type="file"
+            multiple
+            accept="video/mp4,video/quicktime,video/webm,video/x-matroska,image/jpeg,image/png,image/webp"
+          />
+          <label class="dropzone" for="file-input">
+            <span class="media-icons" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="6" width="13" height="12" rx="2"></rect>
+                <path d="m16 10 5-2.7v9.4L16 14"></path>
+              </svg>
+              <span></span>
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+                <circle cx="8.5" cy="9" r="1.5"></circle>
+                <path d="m21 15-5.2-4.8L5 20"></path>
+              </svg>
+            </span>
+            <strong>Range tes medias dans la sacoche</strong>
+            <small>ou clique pour selectionner</small>
+            <span class="primary-action">Ajouter item</span>
+            <em>Video MP4, MOV, WEBM / Photo JPEG, PNG, WEBP / jusqu'a 500 Mo par fichier</em>
+          </label>
+        </section>
+
+        <section class="instagram-panel source-panel" data-panel="instagram" aria-label="Importer depuis Instagram" hidden>
+          <div class="instagram-card">
+            <div class="instagram-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+                <circle cx="12" cy="12" r="4"></circle>
+                <circle cx="17.5" cy="6.5" r="0.7"></circle>
+              </svg>
+            </div>
+            <p class="instagram-title">Portail Instagram</p>
+            <p class="hint center">Reels publics - videos MP4 - meme forge que l'upload</p>
+            <textarea
+              id="instagram-urls"
+              rows="5"
+              placeholder="https://www.instagram.com/p/XXXXXX/
+https://www.instagram.com/reel/XXXXXX/"
+            ></textarea>
+            <div class="instagram-actions">
+              <p class="hint">1 URL video par ligne - 10 max</p>
+              <button class="primary-action generate" id="instagram-import-button" type="button">Import</button>
+            </div>
+            <div class="download-notice" id="instagram-status" hidden></div>
+          </div>
+        </section>
+
+        <section class="instagram-panel source-panel" data-panel="tiktok" aria-label="Importer depuis TikTok" hidden>
+          <div class="instagram-card">
+            <div class="instagram-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M14 4v10.2a4.2 4.2 0 1 1-3.6-4.1"></path>
+                <path d="M14 4c1.1 3.2 3.2 4.8 6 5"></path>
+              </svg>
+            </div>
+            <p class="instagram-title">TikTok arrive ensuite</p>
+            <p class="hint center">L'onglet Instagram est actif. TikTok garde le meme emplacement pour la suite.</p>
+          </div>
+        </section>
+
+        <section class="control-group" aria-label="Nombre de variantes par fichier">
+          <p class="eyebrow">Copies par item</p>
+          <div class="variant-picker" role="radiogroup">
+            <button type="button" role="radio" aria-checked="false">1</button>
+            <button type="button" role="radio" aria-checked="false">2</button>
+            <button type="button" role="radio" aria-checked="false">3</button>
+            <button type="button" role="radio" aria-checked="false">4</button>
+            <button class="selected" type="button" role="radio" aria-checked="true">5</button>
+          </div>
+          <p class="hint">Chaque fichier est duplique <span id="variant-count">5</span> fois</p>
+        </section>
+
+        <section class="control-group" aria-label="Qualite maximale">
+          <p class="eyebrow">Qualite maximale</p>
+          <button class="switch" type="button" role="switch" aria-checked="false">
+            <span></span>
+          </button>
+          <p class="hint">Images: styles distincts - Videos: reencodage, qualite, cadrage et color grade</p>
+        </section>
+
+        <section class="workspace" aria-live="polite">
+          <div class="toolbar">
+            <div>
+              <p class="eyebrow">Slots de sacoche</p>
+              <p class="hint" id="queue-summary">Aucun item dans la sacoche</p>
+            </div>
+            <div class="toolbar-actions">
+              <button class="secondary-action" id="clear-button" type="button">Vider</button>
+              <button class="primary-action generate" id="generate-button" type="button" disabled>Generer</button>
+            </div>
+          </div>
+          <div class="progress" aria-hidden="true">
+            <span id="progress-bar"></span>
+          </div>
+          <div class="download-notice" id="download-notice" hidden></div>
+          <div class="batch-actions" id="batch-actions" hidden>
+            <button class="secondary-action" id="download-videos-button" type="button">Telecharger les videos</button>
+            <a class="secondary-action" href="/exports" target="_blank" rel="noopener">Voir les exports</a>
+          </div>
+          <div class="file-list" id="file-list"></div>
+          <div class="result-list" id="result-list"></div>
+        </section>
+
+        <section class="estimates" aria-label="Estimation du temps de traitement">
+          <div>
+            <p class="eyebrow">Video - estimation par source</p>
+            <div class="estimate-grid">
+              <article>
+                <strong>10 S</strong>
+                <small>source</small>
+                <span>~3 min</span>
+                <small>attente</small>
+              </article>
+              <article>
+                <strong>30 S</strong>
+                <small>source</small>
+                <span>~9 min</span>
+                <small>attente</small>
+              </article>
+              <article>
+                <strong>60 S</strong>
+                <small>source</small>
+                <span>~17 min</span>
+                <small>attente</small>
+              </article>
+              <article>
+                <strong>120 S</strong>
+                <small>source</small>
+                <span>~34 min</span>
+                <small>attente</small>
+              </article>
+            </div>
+          </div>
+
+          <div>
+            <p class="eyebrow">Photo - estimation par source</p>
+            <div class="estimate-grid photo-grid">
+              <article>
+                <strong>&lt;= 12 MP</strong>
+                <small>source</small>
+                <span>~40 s</span>
+                <small>attente</small>
+              </article>
+              <article>
+                <strong>&lt;= 24 MP</strong>
+                <small>source</small>
+                <span>~1 min</span>
+                <small>attente</small>
+              </article>
+              <article>
+                <strong>&lt;= 50 MP</strong>
+                <small>source</small>
+                <span>~2 min</span>
+                <small>attente</small>
+              </article>
+            </div>
+          </div>
+
+          <p class="hint center">
+            5 variantes par source - images et videos reencodees - multiplie par le nombre de fichiers uploades
+          </p>
+        </section>
+      </section>
+
+      <aside class="history-panel" id="history-panel" aria-label="Historique local">
+        <div class="history-head">
+          <p class="eyebrow">Historique</p>
+          <button class="secondary-action" id="history-clear" type="button">Effacer</button>
+        </div>
+        <div id="history-list" class="history-list"></div>
+      </aside>
+
+      <footer>Sacoche Erdenael - FFmpeg - <span>ready</span></footer>
+    </main>
+    <script src="/script.js"></script>
+  </body>
+</html>
