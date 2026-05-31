@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: erdenael
+    runtime: docker
+    dockerfilePath: ./outputs/Dockerfile
+    dockerContext: ./outputs
+    plan: free
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
